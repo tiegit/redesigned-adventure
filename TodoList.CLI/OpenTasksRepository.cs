@@ -3,7 +3,7 @@ using System.Text.Json;
 namespace TodoList.CLI;
 public class OpenTasksRepository
 {
-    private const string DirectoryName = "./openTasks/";
+    private const string DirectoryName = "\\openTasks";
     public bool Add(OpenTask newOpenTask)
     {
         Directory.CreateDirectory(DirectoryName);
