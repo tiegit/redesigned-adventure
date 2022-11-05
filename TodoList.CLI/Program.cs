@@ -5,38 +5,9 @@ using TodoList.CLI;
 Console.OutputEncoding = Encoding.UTF8;
 Console.InputEncoding = Encoding.Unicode;
 
-var openTasksRepository = new OpenTasksRepository();
-{
-    Console.WriteLine("Введите задачу");
-    string? note = null;
+var stoppingTokenSource = new CancellationTokenSource();
 
-    do
-    {
-        note = Console.ReadLine();
-    } while (string.IsNullOrWhiteSpace(note));
+Console.CancelKeyPress += (sender, e) => stoppingTokenSource.Cancel();
 
-    var openTask = new OpenTask();
-    openTask.Note = note;
-    openTask.CreatedDate = DateTimeOffset.UtcNow;
-    
-    openTasksRepository.Add(openTask);
-}
-
-{
-    var openTasks = openTasksRepository.Get();
-
-    var group = openTasks.GroupBy(x => new DateTime(x.CreatedDate.Year, x.CreatedDate.Month, x.CreatedDate.Day));
-    foreach (var groupOfOpenTasks in group)
-    {
-        Console.WriteLine($"Текущие задачи на: {groupOfOpenTasks.Key: dd.MM.yyyy}");
-
-        foreach (var openTask in groupOfOpenTasks.ToArray())
-        {
-            Console.WriteLine(openTask.Note);
-        }
-    }
-}
-
-
-
-
+var app = new Application();
+app.Run(stoppingTokenSource.Token);

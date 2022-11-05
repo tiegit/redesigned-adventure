@@ -1,10 +1,10 @@
 using System.Text.Json;
 
 namespace TodoList.CLI;
-public class OpenTasksRepository
+public static class OpenTasksRepository
 {
-    private const string DirectoryName = "\\openTasks";
-    public bool Add(OpenTask newOpenTask)
+    private static string DirectoryName = "\\openTasks";
+    public static bool Add(OpenTask newOpenTask)
     {
         Directory.CreateDirectory(DirectoryName);
 
@@ -17,7 +17,7 @@ public class OpenTasksRepository
         return true;
     }
 
-    public OpenTask[] Get()
+    public static OpenTask[] Get()
     {
         var files = Directory.GetFiles(DirectoryName);
 
